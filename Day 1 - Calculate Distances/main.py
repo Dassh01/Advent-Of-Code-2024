@@ -6,30 +6,6 @@ RESET = "\033[0m"
 
 link = "https://adventofcode.com/2024/day/1/input"
 
-headers = {
-    "Cache-Control": "max-age=0",
-    "Sec-Ch-Ua": '"Chromium";v="131", "Not_A Brand";v="24"',
-    "Sec-Ch-Ua-Mobile": "?0",
-    "Sec-Ch-Ua-Platform": '"Windows"',
-    "Accept-Language": "en-US,en;q=0.9",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.6778.86 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-    "Sec-Fetch-Site": "same-origin",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-User": "?1",
-    "Sec-Fetch-Dest": "document",
-    "Referer": "https://adventofcode.com/2024/day/1",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Priority": "u=0, i"
-}
-
-cookies = {
-    "_ga": "GA1.2.2044113419.1733035196",
-    "_gid": "GA1.2.863456346.1733035196",
-    "_ga_MHSNPJKWC7": "GS1.2.1733035196.1.1.1733035261.0.0.0"
-    }
-
 def parse_html_to_lists(html_input):
     numbers = re.findall(r'\d+', html_input)
     numbers = list(map(int, numbers))
@@ -38,8 +14,13 @@ def parse_html_to_lists(html_input):
     return list1, list2
 
 def get_raw_html(session):
-    cookies["session"] = session
-    response = requests.get(link, headers=headers, cookies=cookies)
+    cookies = {
+        "_ga": "GA1.2.2044113419.1733035196",
+        "_gid": "GA1.2.863456346.1733035196",
+        "session": session,
+        "_ga_MHSNPJKWC7": "GS1.2.1733035196.1.1.1733035261.0.0.0"
+    }
+    response = requests.get(link, cookies=cookies)
     return response.text
 
 def create_pairs(list1,list2):
@@ -63,7 +44,7 @@ def main():
     raw_html = get_raw_html(input("Enter session key: "))
     list1, list2 = parse_html_to_lists(raw_html)
     pairs_array = create_pairs(list1,list2)
-    print("Distance = "+ GREEN + str(calculate_total_distance(pairs_array) + RESET))
+    print("Distance = "+ GREEN + str(calculate_total_distance(pairs_array)) + RESET)
     
 if __name__ == "__main__":
     main()

@@ -1,6 +1,5 @@
 import requests
 import re
-import time
 
 GREEN = "\033[32m"
 RESET = "\033[0m"
@@ -33,15 +32,12 @@ cookies = {
 
 def parse_html_to_lists(html_input):
     numbers = re.findall(r'\d+', html_input)
-    
     numbers = list(map(int, numbers))
-    
     list1 = numbers[::2]  
     list2 = numbers[1::2]
-    
     return list1, list2
 
-def get_list(session):
+def get_raw_html(session):
     cookies["session"] = session
     response = requests.get(link, headers=headers, cookies=cookies)
     return response.text
@@ -64,7 +60,7 @@ def calculate_total_distance(pairs_array):
     return total_distance
 
 def main():
-    raw_html = get_list(input("Enter session key: "))
+    raw_html = get_raw_html(input("Enter session key: "))
     list1, list2 = parse_html_to_lists(raw_html)
     pairs_array = create_pairs(list1,list2)
     print("Distance = "+ GREEN + str(calculate_total_distance(pairs_array) + RESET))

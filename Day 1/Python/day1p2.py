@@ -59,7 +59,7 @@ def festivefy_text(text):
     return festive_text
     
 def main():
-    print("Day One Part Two: ")
+    print("Day One Part Two")
     print(festivefy_text(dassh_tag))
     raw_html = get_raw_html(input("Enter session key: "))
     list1, list2 = parse_html_to_lists(raw_html)
